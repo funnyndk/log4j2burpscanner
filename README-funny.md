@@ -76,33 +76,29 @@ Q：为什么加载插件显示"load ERROR"
 A：一般由于选择的dns平台无法正常访问，也有可能配置文件出现异常。
 
 ##dev or update note
-/*
-* 0.19.funny dev note
-* 20220617 dev list
-*   add a "dnslog.cn" dnslog platfrom chocie            done!
-*   make it to a slowly passively auto-detection
-*   more methods to bypass                              update continually...
-*   more position in request to inject log4j2 payload   done!
-* 20220623 dev list
-*   fix the code bug                                    done!
-*   test all program fuction                            done!
-*/
-/*
-* 0.20.funny update note
-* 20220629 update list 
-*   fix the bug - cant send request without response to log4j2 scanner
-*   update the feature - log4j2 scanner will show the records even though of which the request doesnt get a response
-*/
-/*
-* 0.21.funny update note
-* 20220704 update list 
-*   update the feature - change how the plugin modifies custom_dnslog_protocol
-* 
-*/
-/*
-* 0.22.funny update note
-* 20220801 update list
-*   optimize the code - use "Abstract Factory" to dnslog platforms list, make it more easy to maintain current platforms or increase a new one
-*   update the feature - add a random bypass mode like j => ${"random_str":"random_str":"random_str"... - j}
-*   update the feature - support privatedns mode
-*/
+0.19.funny dev note
+20220617 dev list
+add a "dnslog.cn" dnslog platfrom chocie            done!
+make it to a slowly passively auto-detection
+more methods to bypass                              update continually...
+more position in request to inject log4j2 payload   done!
+
+20220623 dev list
+fix the code bug                                    done!
+test all program fuction                            done!
+
+0.20.funny update note
+20220629 update list 
+fix the bug - cant send request without response to log4j2 scanner
+update the feature - log4j2 scanner will show the records even though of which the request doesnt get a response
+
+0.21.funny update note
+20220704 update list 
+update the feature - change how the plugin modifies custom_dnslog_protocol
+
+0.22.funny update note
+20220801 update list
+optimize the code - use "Abstract Factory" to dnslog platforms list, make it more easy to maintain current platforms or increase a new one
+update the feature - add a random bypass mode like j => ${"random_str":"random_str":"random_str"... - j}
+update the feature - support privatedns mode
+
