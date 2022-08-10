@@ -46,14 +46,23 @@ config中有save configuration，load configuration，test dnslog三个按钮，
 
 ### output
 插件加载完成后，应当出现如下字样
-[+]               load successful!           
-[+]        log4j2burpscanner v0.22.funny       
+
+[+]               load successful!      
+
+[+]        log4j2burpscanner v0.22.funny  
+
 [+] https://github.com/f0ng/log4j2burpscanner
-[+]                 recode by funnyndk            
+
+[+]                 recode by funnyndk      
+
 [+]using log.xn--9tr.com now!
+
 [+]dns address : 7f124f45.dns.1433.eu.org
+
 [+]dns token : r3ewux4bob98
+
 [+]You also can request to    https://log.xn--9tr.com/r3ewux4bob98    to see dnslog
+
 其中dns address为payload中请求的域名，https://log.xn--9tr.com/r3ewux4bob98可以人为查看解析记录
 
 ### menu
@@ -76,6 +85,7 @@ Q：为什么加载插件显示"load ERROR"
 A：一般由于选择的dns平台无法正常访问，也有可能配置文件出现异常。
 
 ## dev or update note
+
 0.19.funny dev note
 20220617 dev list
 add a "dnslog.cn" dnslog platfrom chocie            done!
@@ -83,9 +93,11 @@ make it to a slowly passively auto-detection
 more methods to bypass                              update continually...
 more position in request to inject log4j2 payload   done!
 
+
 20220623 dev list
 fix the code bug                                    done!
 test all program fuction                            done!
+
 
 0.20.funny update note
 20220629 update list 
@@ -95,6 +107,7 @@ update the feature - log4j2 scanner will show the records even though of which t
 0.21.funny update note
 20220704 update list 
 update the feature - change how the plugin modifies custom_dnslog_protocol
+
 
 0.22.funny update note
 20220801 update list
