@@ -1,5 +1,5 @@
 # 本工具仅为企业测试漏洞使用，严禁他人使用本工具攻击
-本插件基于https://github.com/f0ng/log4j2burpscanner/进行改造，在此感谢f0ng师傅在本项目上做出的贡献。
+本插件基于 https://github.com/f0ng/log4j2burpscanner/ 进行改造，在此感谢f0ng师傅在本项目上做出的贡献。
 
 ## 如何食用？
 #dns_mothed
