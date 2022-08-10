@@ -57,13 +57,13 @@ config中有save configuration，load configuration，test dnslog三个按钮，
 
 [+]using log.xn--9tr.com now!
 
-[+]dns address : 7f124f45.dns.1433.eu.org
+[+]dns address : XXXxxxXXX
 
-[+]dns token : r3ewux4bob98
+[+]dns token : xxx
 
-[+]You also can request to    https://log.xn--9tr.com/r3ewux4bob98    to see dnslog
+[+]You also can request to    XXXxxxXXX    to see dnslog
 
-其中dns address为payload中请求的域名，https://log.xn--9tr.com/r3ewux4bob98可以人为查看解析记录
+其中dns address为payload中请求的域名，xxx 可以人为查看解析记录
 
 ### menu
 对请求包右键的菜单栏中，新增了"Send to log4j2 Scanner"选项，点击后将对包进行注入改造并且测试。完成dns询问后，会在log4j2 RCE栏中展示恶意请求和结果等等
