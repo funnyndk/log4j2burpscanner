@@ -69,49 +69,67 @@ config中有save configuration，load configuration，test dnslog三个按钮，
 对请求包右键的菜单栏中，新增了"Send to log4j2 Scanner"选项，点击后将对包进行注入改造并且测试。完成dns询问后，会在log4j2 RCE栏中展示恶意请求和结果等等
 
 ### payload
+
 真正的payload格式如下
+
 "${"+jndiparam+dnsldaprmi+"//"+random+"."+chosen_dnslog+"}"
+
 pyload将根据设定和请求类型，注入所有的请求头或GET参数或POST参数中(存在特殊情况无法识别)
 
 
 ##FAQ
 Q：为什么安装插件失败，提示java.lang.ClassFoundException: burp.BurpExtender
+
 A：请使用jdk1.8，本插件开发环境为jdk1.8，测试环境为Burp Suite Pro 1.7.31。如果已使用jdk1.8，请更新jdk小版本。开发机版本为jdk1.8.0_291，请至少与之一致，
 
 Q：为什么点了"Send to log4j2 Scanner"选项，log4j2 RCE栏中没有出结果
+
 A：由于网络延迟，扫描可能较慢。或是请求包出现问题，没有相应返回，请检查是否被防火墙等设备封禁。
 
 Q：为什么加载插件显示"load ERROR"
+
 A：一般由于选择的dns平台无法正常访问，也有可能配置文件出现异常。
 
 ## dev or update note
 
 0.19.funny dev note
+
 20220617 dev list
+
 add a "dnslog.cn" dnslog platfrom chocie            done!
+
 make it to a slowly passively auto-detection
+
 more methods to bypass                              update continually...
+
 more position in request to inject log4j2 payload   done!
 
-
 20220623 dev list
-fix the code bug                                    done!
-test all program fuction                            done!
 
+fix the code bug                                    done!
+
+test all program	                            done!
 
 0.20.funny update note
+
 20220629 update list 
+
 fix the bug - cant send request without response to log4j2 scanner
+
 update the feature - log4j2 scanner will show the records even though of which the request doesnt get a response
 
 0.21.funny update note
+
 20220704 update list 
+
 update the feature - change how the plugin modifies custom_dnslog_protocol
 
-
 0.22.funny update note
-20220801 update list
-optimize the code - use "Abstract Factory" to dnslog platforms list, make it more easy to maintain current platforms or increase a new one
-update the feature - add a random bypass mode like j => ${"random_str":"random_str":"random_str"... - j}
-update the feature - support privatedns mode
 
+20220801 update list
+
+optimize the code - use "Abstract Factory" to dnslog platforms list, make it more easy to maintain current platforms or increase a new one
+
+update the feature - add a random bypass mode like j => ${"random_str":"random_str":"random_str"... - j}
+
+update the feature - support privatedns mode
