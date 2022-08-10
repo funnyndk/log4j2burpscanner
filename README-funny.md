@@ -12,32 +12,44 @@
 ### log4j2burpscanner.properties
 插件第一次运行时，会在burp目录下创建log4j2burpscanner.properties配置文件。其中的各项含义如下：
 log_method=0		默认使用第0个dns平台
+
 passivepattern=false		配合burp自带的被动扫描功能，默认关闭
+
 ceyetoken=xxxxxx		ceye.io的用户token
+
 ceyednslog=xxxx.ceye.io	ceye.io的用户dns地址
+
 privatedns=xxxxxx		用户自定义dns地址
+
 isuseUserAgentTokenXff=true	是否测试请求中的UA头/token头
+
 isuseXfflists=false		是否测试Xff(X-forwarded-for)等请求头
+
 isuseAllCookie=true		是否测试cookie
+
 isuseRefererOrigin=false	是否测试Referer
+
 isuseContenttype=false	是否测试Content-type
+
 isuseAccept=false		是否测试useAccept
+
 custom_dnslog_protocol=jndi:ldap:	ayload中"jndi:ladp:"的位置字段，可以自定义"jndi:"的bypass方式,例如输入${lower:j}ndi${::-:}lda${lower:p}:
+
 dnslog_protocol_index=1		payload中"jndi:ladp:"的位置字段的一些默认提供项，设置为0就可使用上一项自定义的custom_dnslog_protocol，设置8为最强bypass
+
 whitelists=*.gov.cn *.edu.cn	不进行测试的host名单
-customlists=X-Client-IP X-Requested-With X-Api-Version
-			需要额外添加并测试的请求头，用空格分隔
+
+customlists=X-Client-IP X-Requested-With X-Api-Version	需要额外添加并测试的请求头，用空格分隔
+
 config中有save configuration，load configuration，test dnslog三个按钮，分别用于保存当前设定的properties，加载properties文件和测试当前选择的dns平台是否可用。
 
 
 ### output
 插件加载完成后，应当出现如下字样
-=============================================
 [+]               load successful!           
 [+]        log4j2burpscanner v0.22.funny       
 [+] https://github.com/f0ng/log4j2burpscanner
 [+]                 recode by funnyndk            
-=============================================
 [+]using log.xn--9tr.com now!
 [+]dns address : 7f124f45.dns.1433.eu.org
 [+]dns token : r3ewux4bob98
