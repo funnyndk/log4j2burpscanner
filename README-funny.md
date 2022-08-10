@@ -2,14 +2,14 @@
 本插件基于 https://github.com/f0ng/log4j2burpscanner/ 进行改造，在此感谢f0ng师傅在本项目上做出的贡献。
 
 ## 如何食用？
-#dns_mothed
+### dns_mothed
 本插件支持3个dns平台：
 	https://dns.xn--9tr.com/(默认使用)
 	http://ceye.io/
 	http://www.dnslog.cn/(由于延迟较高不建议使用)
 本插件支持自定义dns平台
 
-#log4j2burpscanner.properties
+### log4j2burpscanner.properties
 插件第一次运行时，会在burp目录下创建log4j2burpscanner.properties配置文件。其中的各项含义如下：
 log_method=0		默认使用第0个dns平台
 passivepattern=false		配合burp自带的被动扫描功能，默认关闭
@@ -30,7 +30,7 @@ customlists=X-Client-IP X-Requested-With X-Api-Version
 config中有save configuration，load configuration，test dnslog三个按钮，分别用于保存当前设定的properties，加载properties文件和测试当前选择的dns平台是否可用。
 
 
-#output
+### output
 插件加载完成后，应当出现如下字样
 =============================================
 [+]               load successful!           
@@ -44,10 +44,10 @@ config中有save configuration，load configuration，test dnslog三个按钮，
 [+]You also can request to    https://log.xn--9tr.com/r3ewux4bob98    to see dnslog
 其中dns address为payload中请求的域名，https://log.xn--9tr.com/r3ewux4bob98可以人为查看解析记录
 
-#menu
+### menu
 对请求包右键的菜单栏中，新增了"Send to log4j2 Scanner"选项，点击后将对包进行注入改造并且测试。完成dns询问后，会在log4j2 RCE栏中展示恶意请求和结果等等
 
-#payload
+### payload
 真正的payload格式如下
 "${"+jndiparam+dnsldaprmi+"//"+random+"."+chosen_dnslog+"}"
 pyload将根据设定和请求类型，注入所有的请求头或GET参数或POST参数中(存在特殊情况无法识别)
