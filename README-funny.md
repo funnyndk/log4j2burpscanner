@@ -77,7 +77,8 @@ config中有save configuration，load configuration，test dnslog三个按钮，
 pyload将根据设定和请求类型，注入所有的请求头或GET参数或POST参数中(存在特殊情况无法识别)
 
 
-##FAQ
+## FAQ
+
 Q：为什么安装插件失败，提示java.lang.ClassFoundException: burp.BurpExtender
 
 A：请使用jdk1.8，本插件开发环境为jdk1.8，测试环境为Burp Suite Pro 1.7.31。如果已使用jdk1.8，请更新jdk小版本。开发机版本为jdk1.8.0_291，请至少与之一致，
