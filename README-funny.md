@@ -75,7 +75,7 @@ A：由于网络延迟，扫描可能较慢。或是请求包出现问题，没�
 Q：为什么加载插件显示"load ERROR"
 A：一般由于选择的dns平台无法正常访问，也有可能配置文件出现异常。
 
-##dev or update note
+## dev or update note
 0.19.funny dev note
 20220617 dev list
 add a "dnslog.cn" dnslog platfrom chocie            done!
