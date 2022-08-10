@@ -1,5 +1,5 @@
 # 本插件基于 https://github.com/f0ng/log4j2burpscanner/ 进行改造，在此感谢f0ng师傅在本项目上做出的贡献。
-# 新的readme请看[README-funny.md](https://github.com/funnyndk/log4j2burpscanner/[README-funny.md)
+# 新的readme请看[README-funny.md](https://github.com/funnyndk/log4j2burpscanner/README-funny.md)
 
 # JUST FOR TESTING，DON'T ATTACK ANYONE
 ## [FAQ](https://github.com/f0ng/log4j2burpscanner/blob/main/FAQ.md) Frequently Asked Questions
