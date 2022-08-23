@@ -55,6 +55,15 @@ import org.apache.commons.lang3.RandomStringUtils;
 *   update the feature - add a random bypass mode like j => ${"random_str":"random_str":"random_str"... - j}
 *   update the feature - support privatedns mode
 */
+/*
+* 0.23.funny update note
+* 20220818 update list
+*   fix the bug - print massage with a lot of "null" when dnslog platform is failed 
+*   fix the bug - X-forward-for can be disabled
+*   fix the bug - a test println forgot to delete
+*
+*
+*/
 
 public class BurpExtender extends AbstractTableModel
         implements IBurpExtender, IScannerCheck, ITab, IMessageEditorController, IContextMenuFactory {
@@ -410,23 +419,27 @@ public class BurpExtender extends AbstractTableModel
      */
     public void totalCheckAndPrint() {
         checkSuccess();
-        switch (this.log_method) {
-            case 0:
-                this.myDnslogFactory = new logxnFactory();
-                this.myDnslogFactory.initDnslog(this.stdout);
-                break;
-            case 1:
-                this.myDnslogFactory = new ceyeFactory(this.ceyednslog, this.ceyetoken);
-                this.myDnslogFactory.initDnslog(this.stdout);
-                break;
-            case 2:
-                this.myDnslogFactory = new dnslogcnFactory();
-                this.myDnslogFactory.initDnslog(this.stdout);
-                break;
-            case 3:
-                this.myDnslogFactory = new privateFactory(this.privatedns);
-                this.myDnslogFactory.initDnslog(this.stdout);
-                break;
+        try {
+            switch (this.log_method) {
+                case 0:
+                    this.myDnslogFactory = new logxnFactory();
+                    this.myDnslogFactory.initDnslog(this.stdout);
+                    break;
+                case 1:
+                    this.myDnslogFactory = new ceyeFactory(this.ceyednslog, this.ceyetoken);
+                    this.myDnslogFactory.initDnslog(this.stdout);
+                    break;
+                case 2:
+                    this.myDnslogFactory = new dnslogcnFactory();
+                    this.myDnslogFactory.initDnslog(this.stdout);
+                    break;
+                case 3:
+                    this.myDnslogFactory = new privateFactory(this.privatedns);
+                    this.myDnslogFactory.initDnslog(this.stdout);
+                    break;
+            } 
+        } catch (Exception e) {
+            return ;
         }
         this.myDnslogFactory.printDnslog();
     }
@@ -964,10 +977,6 @@ public class BurpExtender extends AbstractTableModel
                     request_header.add(customlists_single + ": " + vulnurl);
             }
         }
-        // XFF check
-        if (!request_header.contains("X-Forwarded-For:")) {
-            request_header.add("X-Forwarded-For: " + vulnurl);
-        }
         return request_header;
     }
 
@@ -1496,7 +1505,6 @@ public class BurpExtender extends AbstractTableModel
                                     new IHttpRequestResponse[] { newIHttpRequestResponse }, "log4j2 RCE",
                                     "log4j2 random is " + random_str, "High"));
                         } else {
-                            BurpExtender.this.stdout.println("16663");
                             BurpExtender.this.Udatas.add(new TablesData(row, reqMethod, url.toString(),
                                     statuscode != 0 ? statuscode + "" : "no respones",
                                     "log4j2 not vuln ", random_str, newIHttpRequestResponse, httpService.getHost(),

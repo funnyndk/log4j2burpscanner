@@ -1,199 +1,148 @@
-## 本插件基于 https://github.com/f0ng/log4j2burpscanner/ 进行改造，在此感谢f0ng师傅在本项目上做出的贡献。
-## 新的readme请看[README-funny.md](https://github.com/funnyndk/log4j2burpscanner/blob/main/README-funny.md)
-
-## JUST FOR TESTING，DON'T ATTACK ANYONE
-## [FAQ](https://github.com/f0ng/log4j2burpscanner/blob/main/FAQ.md) Frequently Asked Questions
-## how to use? [releases](https://github.com/f0ng/log4j2burpscanner/releases/) download the latest plugin
-### [简体中文](https://github.com/f0ng/log4j2burpscanner/blob/main/README-zh-CN.md)|English
-### default dnslog https://dns.xn--9tr.com/   github: [DNSLog-Platform-Golang](https://github.com/yumusb/DNSLog-Platform-Golang)
+# 本工具仅为企业测试漏洞使用，严禁他人使用本工具攻击
+本插件基于 https://github.com/f0ng/log4j2burpscanner/ 进行改造，在此感谢f0ng师傅在本项目上做出的贡献。
 
-# 0.19 update
-## 2022-05-02
-1.add polling dnslog query including active scanning and passive scanning
-<img width="758" alt="image" src="https://user-images.githubusercontent.com/48286013/166197475-ef6f7c94-955d-4299-be31-6dc7304f47a6.png">
+f0ng师傅的readme在https://github.com/funnyndk/log4j2burpscanner/README-f0ng.md
 
-# 0.18 update
-## 2021-12-25
-1.`Send to log4j2 Scanner`the bypass payload of `jndi:` is used for testing. at now it includes the following three types`j${::-n}di:`、 `jn${env::-}di:`、`j${sys:k5:-nD}${lower:i${web:k5:-:}}`
+## 如何食用？
+### dns_mothed
+本插件支持3个dns平台：
+	https://dns.xn--9tr.com/(默认使用)
+	http://ceye.io/
+	http://www.dnslog.cn/(由于延迟较高不建议使用)
+本插件支持自定义dns平台
 
-# 0.17 update
-## 2021-12-19
+### log4j2burpscanner.properties
+插件第一次运行时，会在burp目录下创建log4j2burpscanner.properties配置文件。其中的各项含义如下：
+log_method=0		默认使用第0个dns平台
 
- 1.add passive switch `log4j2 Passive Scanner`，add log4j2 Scanner menu button `Send to log4j2 Scanner`
- <img src="https://user-images.githubusercontent.com/48286013/146666473-83b53bfe-7a41-4379-b22c-a1085125e2e7.png" width="700" height="120" />
- 
- <img src="https://user-images.githubusercontent.com/48286013/146666487-5be3cfad-fd5c-42d5-ad43-f13e1c2fdac5.png" width="600" height="200" />
+passivepattern=false		配合burp自带的被动扫描功能，默认关闭
 
- 2.update payload param，add random character string，distinguish between the same site and the same path, optimization `%20` problem
- 
- 3.recognize `multipart/form-data` type、`xml` type
- 
- fix parameter issue for creating initial `properties` file
+ceyetoken=xxxxxx		ceye.io的用户token
 
-# 0.16 update
-## 2021-12-15
- 1.change the UI page
- 
-  <img src="https://user-images.githubusercontent.com/48286013/146201676-362ea520-a77d-47ab-b3c9-3ff239d41fa7.png" width="650" height="350" />
-  <img src="https://user-images.githubusercontent.com/48286013/146190519-cfb006a9-84aa-44c2-9c47-452d8d6798be.png" width="600" height="280" />
+ceyednslog=xxxx.ceye.io	ceye.io的用户dns地址
 
- 2.add isip param(for the case that there is no domain name and only IP detection in the intranet) but  this kind of test has no parameter point digital ID and no host
+privatedns=xxxxxx		用户自定义dns地址
 
-   If there are no other good intranet dnslog tools to replace, you can link the tools of KpLi0rn https://github.com/KpLi0rn/Log4j2Scan
+isuseUserAgentTokenXff=true	是否测试请求中的UA头/token头
 
-   <img src="https://user-images.githubusercontent.com/48286013/146288249-ad4e2e08-c034-455e-a436-9ed97813096e.png" width="700" height="400" />
-   <img src="https://user-images.githubusercontent.com/48286013/146288272-377ce1ee-bedd-4e81-8732-5c9dbf19597f.png" width="800" height="200" />
-   <img src="https://user-images.githubusercontent.com/48286013/146288432-c14f8a7d-9ae6-4b3d-b9ea-0a50b82c94f8.png" width="650" height="400" />
-   <img src="https://user-images.githubusercontent.com/48286013/146191640-0c9036d5-0ff9-4cef-8ba0-11c384f5f148.png" width="600" height="330" />
-   
-# 0.15 update
-## 2021-12-14
- 1.add dnsldaprmi param (dns、ldap、rmi) default dns
- 
- 2.add isContenttypeRefererOrigin param 、isAccept param
- 
-   isContenttypeRefererOrigin param(whether test Content-Type、Referer、Origin)default off
-   
-   isAccept param(whether test Accept-Language、Accept、Accept-Encoding)default off
+isuseXfflists=false		是否测试Xff(X-forwarded-for)等请求头
 
- 3.add bypass `jndi:` ,but the effect is not good,use with caution
- 
-  `jndi:` bypass methods https://twitter.com/ymzkei5/status/1469765165348704256
- * jn${env::-}di:
- * jn${date:}di${date:':'}
- * j${k8s:k5:-ND}i${sd:k5:-:}
- * j${main:\\k5:-Nd}i${spring:k5:-:}
- * j${sys:k5:-nD}${lower:i${web:k5:-:}}
- * j${::-nD}i${::-:}
- * j${EnV:K5:-nD}i:
- * j${loWer:Nd}i${uPper::}
- 
- 4.add `log.xn--9tr.com` to the white list
- 
- ## In addition, you need to click this button to obtain the latest configuration parameters
+isuseAllCookie=true		是否测试cookie
 
- <img src="https://user-images.githubusercontent.com/48286013/145962694-65bc6943-5b60-41b0-8edb-cde9b087c597.png" width="600" height="300" />
+isuseRefererOrigin=false	是否测试Referer
 
- <img src="https://user-images.githubusercontent.com/48286013/145962761-5c15d967-2085-48d8-ac93-b33c88d9fc3f.png" width="700" height="300" />
+isuseContenttype=false	是否测试Content-type
 
-# 0.14 update
-## 2021-12-13
+isuseAccept=false		是否测试useAccept
 
- 1.add bypass rc1,add space to the payload
+custom_dnslog_protocol=jndi:ldap:	ayload中"jndi:ladp:"的位置字段，可以自定义"jndi:"的bypass方式,例如输入${lower:j}ndi${::-:}lda${lower:p}:
 
- 2.more accurate
+dnslog_protocol_index=1		payload中"jndi:ladp:"的位置字段的一些默认提供项，设置为0就可使用上一项自定义的custom_dnslog_protocol，设置8为最强bypass
 
- 3.add Intranet dnslog api，can customize the ceye.io api or other apis，including internal networks
+whitelists=*.gov.cn *.edu.cn	不进行测试的host名单
 
-  Param 1：isprivatedns(whether to use private dns api)
+customlists=X-Client-IP X-Requested-With X-Api-Version	需要额外添加并测试的请求头，用空格分隔
 
-  Param 2：privatednslogurl(internal dnslog address)
+config中有save configuration，load configuration，test dnslog三个按钮，分别用于保存当前设定的properties，加载properties文件和测试当前选择的dns平台是否可用。
 
-  Param 3：privatednslogurl(internal dnslog response address)
 
- 4.add controllable params to control the payload
+### output
+插件加载完成后，应当出现如下字样
 
-  Param 4：isuseUserAgenttokenXff(whether test User-agent、token、X-Forward-for、X-Client-IP) default on
+[+]               load successful!      
 
-  Param 5：isuseXfflists(whether test xff lists，including others xff)default off
+[+]        log4j2burpscanner v0.22.funny  
 
-  Param 6：isuseAllCookie(whether test all cookie)default on
+[+] https://github.com/f0ng/log4j2burpscanner
 
-# Remember to click restore default button to get the latest dnslog params
+[+]                 recode by funnyndk      
 
+[+]using log.xn--9tr.com now!
 
+[+]dns address : XXXxxxXXX
 
-0x01 More accurate
+[+]dns token : xxx
 
-<img src="https://user-images.githubusercontent.com/48286013/145826369-f5b2276f-1cb2-4ccd-ae03-353d2220cd34.png" width="700" height="600" />
+[+]You also can request to    XXXxxxXXX    to see dnslog
 
-0x02 Add Intranet dnslog api，can customize the ceye.io api or other apis，including internal networks
+其中dns address为payload中请求的域名，xxx 可以人为查看解析记录
 
-Since I don't have an intranet dnslog address，here I use ceye.io to test
+### menu
+对请求包右键的菜单栏中，新增了"Send to log4j2 Scanner"选项，点击后将对包进行注入改造并且测试。完成dns询问后，会在log4j2 RCE栏中展示恶意请求和结果等等
 
-<img src="https://user-images.githubusercontent.com/48286013/145832488-b1ab43d9-63db-47ae-a909-13ab18627687.png" width="600" height="200" />
+### payload
 
-Just ensure the connectivity between intranet and Intranet dnslog address, intranet and dnslog response address
+真正的payload格式如下
 
-<img src="https://user-images.githubusercontent.com/48286013/145834006-e1cb7e93-1054-427b-83e9-406ad200d81d.png" width="600" height="400" />
+"${"+jndiparam+dnsldaprmi+"//"+random+"."+chosen_dnslog+"}"
 
-0x03 Add controllable params to control the payload
+pyload将根据设定和请求类型，注入所有的请求头或GET参数或POST参数中(存在特殊情况无法识别)
 
-<img src="https://user-images.githubusercontent.com/48286013/145836830-06d3851c-5ce3-4dc5-9e52-b2c3715c71bb.png" width="600" height="450" />
 
-Fix problem：
-Due to the vulnerability of the sub domain name, the primary domain name will also report the vulnerability
+## FAQ
 
-# 0.13 update
+Q：为什么安装插件失败，提示java.lang.ClassFoundException: burp.BurpExtender
 
-  1.add request headers
+A：请使用jdk1.8，本插件开发环境为jdk1.8，测试环境为Burp Suite Pro 1.7.31。如果已使用jdk1.8，请更新jdk小版本。开发机版本为jdk1.8.0_291，请至少与之一致，
 
-["X-Forwarded-For","X-Forwarded","Forwarded-For","Forwarded","X-Requested-With","X-Requested-With", "X-Forwarded-Host","X-remote-IP","X-remote-addr","True-Client-IP","X-Client-IP","Client-IP","X-Real-IP","Ali-CDN-Real-IP","Cdn-Src-Ip","Cdn-Real-Ip","CF-Connecting-IP","X-Cluster-Client-IP","WL-Proxy-Client-IP", "Proxy-Client-IP","Fastly-Client-Ip","True-Client-Ip","X-Originating-IP", "X-Host","X-Custom-IP-Authorization","X-original-host","If-Modified-Since"]
+Q：为什么点了"Send to log4j2 Scanner"选项，log4j2 RCE栏中没有出结果
 
-# 0.12 update
- 1.add recognizable format  
+A：由于网络延迟，扫描可能较慢。或是请求包出现问题，没有相应返回，请检查是否被防火墙等设备封禁。
 
-body={"a":"1","b":"22222"}
+Q：为什么加载插件显示"load ERROR"
 
-body={"params":{"a":"1","b":"22222"}})
+A：一般由于选择的dns平台无法正常访问，也有可能配置文件出现异常。
 
- 2.add ceye.io api（https://ceye.io）,can customize the ceye API，click the button to save configuration，the Extender output page will be display the results such as "Save Success!".Remember to set isceye property to true,otherwise ceye will fail
+## dev or update note
 
- 3.more accurate（hostName + path）
-![image](https://user-images.githubusercontent.com/48286013/145709437-58b32654-d028-4c9e-af89-920ba7e79f7b.png)
+0.19.funny dev note
 
-Fix problem：
-windows path problem
+20220617 dev list
 
-# log4j2burpscanner
-CVE-2021-44228，log4j2 RCE Burp Suite Passive Scanner，and u can customize the ceye.io api or other apis，including internal networks
+add a "dnslog.cn" dnslog platfrom chocie            done!
 
-![image](https://user-images.githubusercontent.com/48286013/145667667-c32ea0de-19c2-45b1-9617-ab743b8431f3.png)
+make it to a slowly passively auto-detection
 
-![image](https://user-images.githubusercontent.com/48286013/145667703-62ffb1ea-763a-44ae-a5e0-22a545db01b5.png)
+more methods to bypass                              update continually...
 
-Two SRC（Security Response Center） sites were tested
-![image](https://user-images.githubusercontent.com/48286013/145667530-feb801ec-6e20-4020-8a11-c7e1af8673ce.png)
+more position in request to inject log4j2 payload   done!
 
-After loading，a url will appear，access it to see the dnslog request，of course，the plugin has its own DNS check record，this is only for the convenience of subsequent viewing
-![image](https://user-images.githubusercontent.com/48286013/145698319-e93ec2c8-9789-4d10-a926-d7f3f071e5a5.png)
+20220623 dev list
 
+fix the code bug                                    done!
 
-# characteristics：
-## 0x01 Cookie、XFF、UA payload
-## 0x02 Domain name based uniqueness，add host to dnslog payload
+test all program	                            done!
 
-Plug ins mainly identify seven forms：
+0.20.funny update note
 
-1.get method，a=1&b=2&c=3  
+20220629 update list 
 
-2.post method，a=1&b=2&c=3  
+fix the bug - cant send request without response to log4j2 scanner
 
-3.post method，{“a”:”1”,”b”:”22222”}
+update the feature - log4j2 scanner will show the records even though of which the request doesnt get a response
 
-4.post method，a=1&param={“a”:”1”,”b”:”22222”}
+0.21.funny update note
 
-5.post method，{"params":{"a":"1","b":"22222"}}
+20220704 update list 
 
-6.post method，body={"a":"1","b":"22222"}
+update the feature - change how the plugin modifies custom_dnslog_protocol
 
-7.post method，body={"params":{"a":"1","b":"22222"}}
+0.22.funny update note
 
+20220801 update list
 
-# 
-if u need to test in the repeater
+optimize the code - use "Abstract Factory" to dnslog platforms list, make it more easy to maintain current platforms or increase a new one
 
-open dashbord→Live passive crawl from Proxy and Repeater→tick repeater
+update the feature - add a random bypass mode like j => ${"random_str":"random_str":"random_str"... - j}
 
-open dashbord→Live audit from Proxy and Repeater→tick repeater
-![image](https://user-images.githubusercontent.com/48286013/145667621-449187be-d259-4567-8c1d-1619e0009411.png)
+update the feature - support privatedns mode
 
-![image](https://user-images.githubusercontent.com/48286013/145667631-301fb788-30da-42b9-b038-98fa71ef835a.png)
+0.23.funny update note
 
+20220818 update list
 
-# Disclaimers
-This tool is only for learning, research and self-examination. It should not be used for illegal purposes. All risks arising from the use of this tool have nothing to do with me!
+fix the bug - print massage with a lot of "null" when dnslog platform is failed 
 
+fix the bug - X-forward-for can be disabled
 
-
-![f](https://starchart.cc/f0ng/log4j2burpscanner.svg)
+fix the bug - a test println forgot to delete

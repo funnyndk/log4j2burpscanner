@@ -60,6 +60,7 @@ class logxnFactory extends dnslogFactory {
             this.logxnDnslogToken = jsonObject.getString("token");
         } catch (Exception e) {
             this.stdout.println("[E] using log.xn--9tr.com now but initialization failed!");
+            throw e;
         }
     }
 
