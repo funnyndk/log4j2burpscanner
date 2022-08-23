@@ -1,8 +1,5 @@
 package burp;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import okhttp3.Call;
-import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -159,11 +155,8 @@ public class BurpExtender extends AbstractTableModel
     public int log_method;
     private Boolean passivepattern;// whether use passive scan
     // private String burp_dnslog;
-    private String logxn_dnslog_token;
     private String ceyednslog;// ceye.io dnslog url(xxxxxx.ceye.io)
     private String ceyetoken;// ceye.io token
-    private String dnslogcn;// dnslog.cn dnslog url(xxxxxx.dnslog.cn)
-    private String dnslogcn_session;
     private String privatedns;
     // private Boolean isip;
     // private Boolean isipincreasing;
@@ -1641,7 +1634,7 @@ public class BurpExtender extends AbstractTableModel
             this.port = port;
             this.random = random;
         }
-
+    }
         class CustomScanIssue implements IScanIssue {
             private IHttpService httpService;
             private URL url;
@@ -1719,5 +1712,5 @@ public class BurpExtender extends AbstractTableModel
             }
         }
 
-    }
+    
 }

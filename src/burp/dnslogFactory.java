@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 import okhttp3.Response;
 import okhttp3.Headers;
-import org.apache.commons.lang3.RandomStringUtils;
+
 
 /**
  * 0:log.xn--9tr.com
@@ -22,7 +22,7 @@ abstract class dnslogFactory {
 
     abstract public String getDnslogUrl();
 
-    abstract public void initDnslog(PrintWriter stdout);
+    abstract public void initDnslog(PrintWriter stdout) throws Exception;
 
     /**
      * print current dnslog info
@@ -48,7 +48,7 @@ class logxnFactory extends dnslogFactory {
     private String logxnDnslogToken;
 
     @Override
-    public void initDnslog(PrintWriter stdout) {
+    public void initDnslog(PrintWriter stdout) throws Exception {
         this.stdout = stdout;
         try {
             String indexUrl = "https://log.xn--9tr.com/new_gen";
@@ -192,7 +192,7 @@ class dnslogcnFactory extends dnslogFactory {
     private String dnslogcnSession;
 
     @Override
-    public void initDnslog(PrintWriter stdout) {
+    public void initDnslog(PrintWriter stdout) throws Exception {
         this.stdout = stdout;
         try {
             Random rand = new Random();
@@ -212,6 +212,7 @@ class dnslogcnFactory extends dnslogFactory {
             }
         } catch (Exception e) {
             this.stdout.println("[E] using dnslog.cn now but initialization failed!");
+            throw e;
         }
     }
 
