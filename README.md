@@ -146,3 +146,11 @@ fix the bug - print massage with a lot of "null" when dnslog platform is failed
 fix the bug - X-forward-for can be disabled
 
 fix the bug - a test println forgot to delete
+
+20230320 update list
+
+optimize the code - change all chinese comment to english comment 
+
+optimize the code - optimize the function askDnslogRecordOnce
+
+fix the bug - dnslog.cn cant work, because the missing cookie of request

@@ -38,8 +38,17 @@ abstract class dnslogFactory {
      * pop a JOptionPane to tell if dnslog is working normally
      */
     abstract public String testDnslog();
-
-    abstract public List<String> askDnslogRecordOnce();
+    
+    /**
+     * According to log_meyhod, check the dnslog platform once the search the target
+     * random string
+     * 
+     * @param random_str
+     *                   the random string used in vulnurl
+     * @return boolean
+     *         whether the param strings is found on dnslog
+     */
+    abstract public Boolean askDnslogRecordOnce(String random_str);
 }
 
 class logxnFactory extends dnslogFactory {
@@ -52,7 +61,7 @@ class logxnFactory extends dnslogFactory {
         this.stdout = stdout;
         try {
             String indexUrl = "https://log.xn--9tr.com/new_gen";
-            String respbody = BurpExtender.myRequest(indexUrl).body().string();
+            String respbody = BurpExtender.myRequest(indexUrl,"").body().string();
             JSONObject jsonObject = JSON.parseObject(String.valueOf(respbody));
             this.logxnDnslog = jsonObject.getString("domain");
             // this stupid website will add a '.' to the end of domain
@@ -82,7 +91,7 @@ class logxnFactory extends dnslogFactory {
     public Boolean checkDnslog() {
         try {
             String indexUrl = "https://log.xn--9tr.com/" + this.logxnDnslogToken;
-            Response response = BurpExtender.myRequest(indexUrl);
+            Response response = BurpExtender.myRequest(indexUrl,"");
             if (response.body().string() != null && response.code() == 200)
                 return true;
         } catch (Exception e) {
@@ -97,11 +106,11 @@ class logxnFactory extends dnslogFactory {
     }
 
     @Override
-    public List<String> askDnslogRecordOnce() {
+    public Boolean askDnslogRecordOnce(String random_str) {
 
         List<String> random_str_list = new ArrayList<String>();
         try {
-            Response response = BurpExtender.myRequest("https://log.xn--9tr.com/" + this.logxnDnslogToken);
+            Response response = BurpExtender.myRequest("https://log.xn--9tr.com/" + this.logxnDnslogToken,"");
             JSONObject jsonObject = JSON.parseObject(response.body().string());
             // check the subdomain
             for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
@@ -112,7 +121,15 @@ class logxnFactory extends dnslogFactory {
             }
         } catch (Exception e) {
         }
-        return random_str_list;
+        if (random_str_list.size() > 0) {
+            for (String _random_str_list : random_str_list) {
+                // this.stdout.println(_random_str_list);
+                if (_random_str_list.equals(random_str) || _random_str_list.contains(random_str)){
+                    return true;
+                }                
+            }
+        }
+        return false;
     }
 }
 
@@ -150,8 +167,8 @@ class ceyeFactory extends dnslogFactory {
         if (this.ceyednslog == null || this.ceyetoken == null)
             return false;
         try {
-            String indexUrl = " http://api.ceye.io/v1/records?token=" + this.ceyetoken + "&type=dns&filter=";
-            String respbody = BurpExtender.myRequest(indexUrl).body().string();
+            String indexUrl = "http://api.ceye.io/v1/records?token=" + this.ceyetoken + "&type=dns&filter=";
+            String respbody = BurpExtender.myRequest(indexUrl,"").body().string();
             JSONObject jsonObject = JSON.parseObject(respbody);
             if (jsonObject.getJSONObject("meta").getIntValue("code") == 200)
                 return true;
@@ -167,11 +184,11 @@ class ceyeFactory extends dnslogFactory {
     }
 
     @Override
-    public List<String> askDnslogRecordOnce() {
+    public Boolean askDnslogRecordOnce(String random_str) {
         List<String> random_str_list = new ArrayList<String>();
         try {
             Response response = BurpExtender
-                    .myRequest("http://api.ceye.io/v1/records?token=" + this.ceyetoken + "&type=dns&filter=");
+                    .myRequest("http://api.ceye.io/v1/records?token=" + this.ceyetoken + "&type=dns&filter=","");
             JSONArray jsonarray = JSON.parseObject(response.body().string()).getJSONArray("data");
             for (int i = 0; i < jsonarray.size(); i++) {
                 JSONObject jsonObject = jsonarray.getJSONObject(i);
@@ -182,7 +199,15 @@ class ceyeFactory extends dnslogFactory {
             }
         } catch (Exception e) {
         }
-        return random_str_list;
+        if (random_str_list.size() > 0) {
+            for (String _random_str_list : random_str_list) {
+                // this.stdout.println(_random_str_list);
+                if (_random_str_list.equals(random_str) || _random_str_list.contains(random_str)){
+                    return true;
+                }                
+            }
+        }
+        return false;
     }
 }
 
@@ -197,7 +222,7 @@ class dnslogcnFactory extends dnslogFactory {
         try {
             Random rand = new Random();
             String indexUrl = "http://dnslog.cn/getdomain.php?t=" + String.valueOf(rand.nextDouble());
-            Response response = BurpExtender.myRequest(indexUrl);
+            Response response = BurpExtender.myRequest(indexUrl,"");
             String respbody = response.body().string();
             ;
             Headers headers = response.headers();
@@ -235,7 +260,7 @@ class dnslogcnFactory extends dnslogFactory {
         try {
             Random rand = new Random();
             String indexUrl = "http://dnslog.cn/getrecords.php?t=" + String.valueOf(rand.nextDouble());
-            Response response = BurpExtender.myRequest(indexUrl);
+            Response response = BurpExtender.myRequest(indexUrl,this.dnslogcnSession);
             if (response.body().string() != null && response.code() == 200)
                 return true;
         } catch (Exception e) {
@@ -250,23 +275,31 @@ class dnslogcnFactory extends dnslogFactory {
     }
 
     @Override
-    public List<String> askDnslogRecordOnce() {
+    public Boolean askDnslogRecordOnce(String random_str) {
         List<String> random_str_list = new ArrayList<String>();
         try {
             Random rand = new Random();
             Response response = BurpExtender
-                    .myRequest("http://dnslog.cn/getrecords.php?t=" + String.valueOf(rand.nextDouble()));
+                    .myRequest("http://dnslog.cn/getrecords.php?t=" + String.valueOf(rand.nextDouble()),this.dnslogcnSession);
             // how to parse things like [[string,string],[string,string]]?
-            // this.stdout.println(response.body().toString());
-            String[] subdomain = response.body().toString().split("\"");
+            //this.stdout.println(response.body().string());
+            String[] subdomain = response.body().string().split(",");
             for (String _subdomain : subdomain) {
                 if (_subdomain.contains(this.dnslogcn) && _subdomain.length() > this.dnslogcn.length()) {
-                    random_str_list.add(_subdomain.split(this.dnslogcn)[0]);
+                    random_str_list.add(_subdomain);
                 }
             }
         } catch (Exception e) {
         }
-        return random_str_list;
+        if (random_str_list.size() > 0) {
+            for (String _random_str_list : random_str_list) {
+                // this.stdout.println(_random_str_list);
+                if (_random_str_list.equals(random_str) || _random_str_list.contains(random_str)){
+                    return true;
+                }                
+            }
+        }
+        return false;
     }
 }
 
@@ -307,8 +340,8 @@ class privateFactory extends dnslogFactory {
     }
 
     @Override
-    public List<String> askDnslogRecordOnce() {
-        List<String> random_str_list = new ArrayList<String>();
-        return random_str_list;
+    public Boolean askDnslogRecordOnce(String random_str) {
+        return false;
     }
 }
+ 
